@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-text {
+  font-family: var(--font-press-start);
+}
+.text-button {
+  font-family: var(--font-poppins);
+}
+
+.logo-text {
+  font-family: var(--font-poppins);
+}
+.text-about {
+  font-family: var(--font-poppins);
+}
+.main-section {
+  background-image: url('/cir4.png');
+  background-size: 150px;
+}
+.paragraph-merlin {
+  font-family: var(--font-poppins);
+
+}
+.animate-pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0
+  }
+}
+.text-back {
+  font-family: var(--font-press-start);
+}
+.text-continue {
+  font-family: var(--font-press-start);
+}
+.section-game {
+  background-image: url('/casttle-electric-image.jpg');
+  background-repeat: no-repeat;
+  background-size: full; 
+}
+.section-instructions {
+  background-image: url('/casttle-electric-image2.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}
+.text-instructions {
+  font-family: var(--font-press-start);
+}
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: float 1s ease-in-out infinite;
+}
+
+@keyframes projectile {
+  0% {
+    opacity: 0.7;
+    transform: scaleY(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+
+  100% {
+    opacity: 0.8;
+    transform: scaleY(1);
+  }
+}
+
+.animate-projectile {
+  animation: projectile 0.3s infinite;
+}
