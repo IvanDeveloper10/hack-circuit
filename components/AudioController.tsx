@@ -32,7 +32,7 @@ export default function AudioController() {
 
   return (
     <>
-      <audio ref={audioRef} src='/audio.mp3' />
+      <audio ref={audioRef} src='/' />
       <button
         onClick={toggleMute}
         className='fixed top-5 right-5 p-2 bg-white/10 hover:bg-white/20 rounded-full z-50'
