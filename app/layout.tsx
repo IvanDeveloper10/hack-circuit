@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Press_Start_2P, Poppins } from 'next/font/google';
 import { Providers } from './providers';
 import { siteConfig } from '@/config/site';
-import AudioController from '@/components/AudioController';
 
 const pressStart2P = Press_Start_2P({
   subsets: ['latin'],
@@ -51,7 +50,6 @@ export default function RootLayout({
           poppins.variable,
         )}
       >
-        <AudioController />
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
           {children}
         </Providers>
