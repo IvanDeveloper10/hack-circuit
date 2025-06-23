@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState, useRef } from 'react';
 import { Image } from '@heroui/image';
 import { Button } from '@heroui/button';
 import Link from 'next/link';
-import AudioController from '@/components/AudioController';
+
 
 export default function Game() {
   const fullText = `Hello! I'm Merlin, the circuit wizard. My specific power is electricity. Help me defeat the evil fire wizard and hack his castle's circuit.`;

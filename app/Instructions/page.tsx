@@ -4,7 +4,6 @@ import { Fragment, useState, useEffect } from 'react';
 import { Image } from '@heroui/image';
 import { Button } from '@heroui/button';
 import Link from 'next/link';
-import AudioController from '@/components/AudioController'; 
 
 export default function Instructions() {
   const fullText = `The instructions are simple: press A, W, S, and D to move around the game, and press Space to shoot. Once you defeat the wizard, hack his castle circuit and continue to the next level.`;
