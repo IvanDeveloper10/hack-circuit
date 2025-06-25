@@ -82,7 +82,7 @@ export default function CasttleOne() {
               <p></p>
             </ModalBody>
             <ModalFooter>
-              <Link href='/'>
+              <Link href='/Levels'>
                 <Button className='text-2xl text-next' variant='ghost' color='secondary' radius='none'>NEXT LEVEL</Button>
               </Link>
             </ModalFooter>

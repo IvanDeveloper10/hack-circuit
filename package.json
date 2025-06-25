@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/button": "2.2.22",
+    "@heroui/card": "^2.2.21",
     "@heroui/code": "2.2.16",
     "@heroui/image": "^2.2.14",
     "@heroui/input": "2.4.22",

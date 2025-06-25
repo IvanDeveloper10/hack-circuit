@@ -153,3 +153,9 @@
 .text-start {
   font-family: var(--font-press-start);
 }
+.text-2p {
+  font-family: var(--font-press-start);
+}
+.text-po {
+  font-family: var(--font-poppins);
+}
