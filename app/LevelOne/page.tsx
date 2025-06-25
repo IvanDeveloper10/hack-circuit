@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Fragment, useState, useEffect, useRef } from 'react'
-import { Image } from '@heroui/image'
-import { Button } from '@heroui/button'
+import { Fragment, useState, useEffect, useRef } from 'react';
+import { Image } from '@heroui/image';
+import { Button } from '@heroui/button';
 import {
   Modal,
   ModalContent,
@@ -10,7 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from '@heroui/modal'
+} from '@heroui/modal';
+import Link from 'next/link';
 
 export default function LevelOne() {
   const [playerPosition, setPlayerPosition] = useState({ x: 300, y: 400 })
@@ -145,9 +146,9 @@ export default function LevelOne() {
 
   return (
     <Fragment>
-      <div className='relative bg-gradient-to-b from-gray-900 to-black border-4 border-yellow-400 w-[600px] h-[500px] mx-auto overflow-hidden'>
-        <div className='absolute left-2 top-2 text-white font-bold'>⚡ Merlín: {playerHealth}</div>
-        <div className='absolute right-2 top-2 text-white font-bold'>🔥 Fuego: {npcHealth}</div>
+      <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container'>
+        <div className='absolute left-2 top-2 text-white font-bold text-poppins'>⚡ YOU: {playerHealth}</div>
+        <div className='absolute right-2 top-2 text-white font-bold text-poppins'>🔥 FIRE WIZARD: {npcHealth}</div>
 
         <Image
           src='/wizard-fire.png'
@@ -185,25 +186,24 @@ export default function LevelOne() {
         ))}
       </div>
 
-      <Modal isOpen={isOpen} placement='center'>
+      <Modal isOpen={isOpen} placement='center' radius='none'>
         <ModalContent>
-          <ModalHeader className='text-2xl'>
-            {winner === 'player' ? '¡Victoria de Merlín!' : '🔥 Game Over'}
+          <ModalHeader className='flex justify-center items-center text-2xl modal-header'>
+            {winner === 'player' ? '¡YOU WIN!' : 'GAME OVER'}
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className='modal-body'>
             {winner === 'player'
-              ? 'Has derrotado al mago de fuego. ¡Buen trabajo!'
-              : 'El mago de fuego te ha vencido. Intenta nuevamente.'}
+              ? 'Good Job Wizard!'
+              : 'The fire mage defeated you.'}
           </ModalBody>
           <ModalFooter>
             {winner === 'player' ? (
               <>
-                <Button color='primary'>Continue</Button>
-                <Button variant='ghost'>Back</Button>
+                <Link href={'/CasttleLevelOne'}><Button variant='ghost' color='secondary' className='text-continue' radius='none'>HACK THE CASTTLE!</Button></Link>
               </>
             ) : (
-              <Button color='danger' onPress={() => window.location.reload()}>
-                Intentar nuevamente
+              <Button variant='ghost' color='secondary' className='text-continue' radius='none' onPress={() => window.location.reload()}>
+                TRY AGAIN
               </Button>
             )}
           </ModalFooter>

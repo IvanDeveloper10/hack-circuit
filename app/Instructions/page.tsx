@@ -15,7 +15,7 @@ export default function Instructions() {
         const timeout = setTimeout(() => {
           setDisplayedText(prev => prev + fullText[index]);
           setIndex(prev => prev + 1);
-        }, 35);
+        }, 15);
         return () => clearTimeout(timeout);
       }
     }, [index, fullText]);

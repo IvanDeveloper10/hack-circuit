@@ -18,7 +18,7 @@ export default function Game() {
       const timeout = setTimeout(() => {
         setDisplayedText(prev => prev + fullText[index]);
         setIndex(prev => prev + 1);
-      }, 35);
+      }, 15);
       return () => clearTimeout(timeout);
     }
   }, [index, fullText]);
@@ -38,8 +38,8 @@ export default function Game() {
           </div>
         </div>
         <div className='w-full flex justify-evenly items-center'>
-          <Button variant='ghost' color='secondary' radius='none' className='text-back w-72' size='lg'><Link href={'/'}>BACK</Link></Button>
-          <Button variant='ghost' color='secondary' radius='none' className='text-continue w-72' size='lg'><Link href={'/Instructions'}>CONTINUE</Link></Button>
+          <Link href={'/'}><Button variant='ghost' color='secondary' radius='none' className='text-back w-72' size='lg'>BACK</Button></Link>
+          <Link href={'/Instructions'}><Button variant='ghost' color='secondary' radius='none' className='text-continue w-72' size='lg'>CONTINUE</Button></Link>
         </div>
       </section>
     </Fragment>

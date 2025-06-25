@@ -91,7 +91,65 @@
     transform: scaleY(1);
   }
 }
-
+.game-container {
+  background-image: url('/casttle-fire-image2.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}
 .animate-projectile {
   animation: projectile 0.3s infinite;
+}
+.modal-header {
+  font-family: var(--font-press-start);
+}
+.modal-body {
+  font-family: var(--font-poppins);
+}
+.text-poppins {
+  font-family: var(--font-poppins);
+}
+.section-casttle-one {
+  background-image: url('/casttle-fire-image.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}
+.text-hack-casttle {
+  font-family: var(--font-press-start);
+}
+.text-paragraph {
+  font-family: var(--font-poppins);
+}
+.text-next {
+  font-family: var(--font-press-start);
+}
+@keyframes stars {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 1000px 1000px;
+  }
+}
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+.bg-stars {
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.08;
+}
+.animate-stars {
+  animation: stars 80s linear infinite, twinkle 3s ease-in-out infinite;
+}
+.text-start {
+  font-family: var(--font-press-start);
 }
