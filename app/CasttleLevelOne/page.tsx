@@ -89,10 +89,10 @@ export default function CasttleOne() {
           </ModalContent>
         </Modal>
 
-        <Modal isOpen={ isErrorOpen } onClose={ closeError } placement='center'>
+        <Modal isOpen={ isErrorOpen } onClose={ closeError } placement='center' size='3xl'>
           <ModalContent>
-            <ModalHeader>
-              <h1>❌ Conexión Incorrecta</h1>
+            <ModalHeader className='text-2p'>
+              <h1>❌ Incorrect connection</h1>
             </ModalHeader>
           </ModalContent>
         </Modal>

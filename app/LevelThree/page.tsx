@@ -19,11 +19,17 @@ export default function LevelOne() {
   const [npcPosition, setNpcPosition] = useState({ x: 0, y: 50 });
   const [npcDirection, setNpcDirection] = useState(1);
   const [npcProjectiles, setNpcProjectiles] = useState<{ x: number; y: number }[]>([]);
-  const [npcHealth, setNpcHealth] = useState(15);
-  const [playerHealth, setPlayerHealth] = useState(10);
+  const [npcHealth, setNpcHealth] = useState(50);
+  const [playerHealth, setPlayerHealth] = useState(35);
+
+  const [dragonPosition, setDragonPosition] = useState({ x: 480, y: 100 });
+  const [dragonProjectiles, setDragonProjectiles] = useState<{ x: number; y: number }[]>([]);
+  const [dragonHealth, setDragonHealth] = useState(20);
 
   const npcRef = useRef(npcPosition);
   const playerRef = useRef(playerPosition);
+  const dragonRef = useRef(dragonPosition);
+
   const { isOpen, onOpen } = useDisclosure();
   const [winner, setWinner] = useState<'player' | 'npc' | null>(null);
 
@@ -34,6 +40,10 @@ export default function LevelOne() {
   useEffect(() => {
     playerRef.current = playerPosition;
   }, [playerPosition]);
+
+  useEffect(() => {
+    dragonRef.current = dragonPosition;
+  }, [dragonPosition]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -86,6 +96,36 @@ export default function LevelOne() {
   }, [npcDirection, npcHealth]);
 
   useEffect(() => {
+    if (dragonHealth <= 0) return;
+
+    const dragonInterval = setInterval(() => {
+      setDragonPosition((prev) => {
+        const dx = (Math.random() - 0.5) * 20;
+        const dy = (Math.random() - 0.5) * 20;
+
+        const minX = 350;
+        const maxX = 540;
+        const minY = 20;
+        const maxY = 200;
+
+        const newX = Math.min(Math.max(prev.x + dx, minX), maxX);
+        const newY = Math.min(Math.max(prev.y + dy, minY), maxY);
+
+        return { x: newX, y: newY };
+      });
+
+      if (Math.random() < 0.5) {
+        setDragonProjectiles((prev) => [
+          ...prev,
+          { x: dragonRef.current.x + 20, y: dragonRef.current.y + 40 }
+        ]);
+      }
+    }, 1000);
+
+    return () => clearInterval(dragonInterval);
+  }, [dragonHealth]);
+
+  useEffect(() => {
     const moveInterval = setInterval(() => {
       const npc = npcRef.current;
       const player = playerRef.current;
@@ -94,14 +134,28 @@ export default function LevelOne() {
         prev
           .map((p) => {
             const newY = p.y - 8;
-            const hit =
+
+            const hitNpc =
+              npcHealth > 0 &&
               p.x >= npc.x &&
               p.x <= npc.x + 60 &&
               newY >= npc.y &&
               newY <= npc.y + 60;
 
-            if (hit && npcHealth > 0) {
+            if (hitNpc) {
               setNpcHealth((h) => Math.max(h - 1, 0));
+              return null;
+            }
+
+            const hitDragon =
+              dragonHealth > 0 &&
+              p.x >= dragonRef.current.x &&
+              p.x <= dragonRef.current.x + 60 &&
+              newY >= dragonRef.current.y &&
+              newY <= dragonRef.current.y + 60;
+
+            if (hitDragon) {
+              setDragonHealth((h) => Math.max(h - 1, 0));
               return null;
             }
 
@@ -131,36 +185,60 @@ export default function LevelOne() {
           })
           .filter((p): p is { x: number; y: number } => p !== null)
       );
+
+      setDragonProjectiles((prev) =>
+        prev
+          .map((p) => {
+            const newY = p.y + 5;
+            const hit =
+              p.x >= player.x &&
+              p.x <= player.x + 60 &&
+              newY >= player.y &&
+              newY <= player.y + 60;
+
+            if (hit) {
+              setPlayerHealth((h) => Math.max(h - 1, 0));
+              return null;
+            }
+
+            if (newY > 520) return null;
+            return { ...p, y: newY };
+          })
+          .filter((p): p is { x: number; y: number } => p !== null)
+      );
     }, 30);
 
     return () => clearInterval(moveInterval);
-  }, [npcHealth]);
+  }, [npcHealth, dragonHealth]);
 
   useEffect(() => {
-    if (npcHealth <= 0) {
+    if (npcHealth <= 0 && dragonHealth <= 0) {
       setWinner('player');
       onOpen();
     } else if (playerHealth <= 0) {
       setWinner('npc');
       onOpen();
     }
-  }, [npcHealth, playerHealth, onOpen]);
+  }, [npcHealth, dragonHealth, playerHealth, onOpen]);
 
   return (
     <Fragment>
-      <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container'>
+      <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container3'>
         <div className='absolute left-2 top-2 text-white font-bold text-poppins'>
           ⚡ YOU: {playerHealth}
         </div>
         <div className='absolute right-2 top-2 text-white font-bold text-poppins'>
           🔥 FIRE WIZARD: {npcHealth}
         </div>
+        <div className='absolute right-2 top-10 text-white font-bold text-poppins'>
+          🐉 DRAGON: {dragonHealth}
+        </div>
 
         {npcHealth > 0 && (
           <Image
             src='/wizard-fire.png'
-            width={60}
-            height={60}
+            width={120}
+            height={100}
             className='absolute'
             style={{ left: npcPosition.x, top: npcPosition.y }}
           />
@@ -173,6 +251,16 @@ export default function LevelOne() {
           className='absolute'
           style={{ left: playerPosition.x, top: playerPosition.y }}
         />
+
+        {dragonHealth > 0 && (
+          <Image
+            src='/dragon-fire.png'
+            width={130}
+            height={90}
+            className='absolute'
+            style={{ left: dragonPosition.x, top: dragonPosition.y }}
+          />
+        )}
 
         {playerProjectiles.map((p, i) => (
           <div
@@ -193,6 +281,16 @@ export default function LevelOne() {
             🔥
           </div>
         ))}
+
+        {dragonProjectiles.map((p, i) => (
+          <div
+            key={`dragon-${i}`}
+            className='absolute text-orange-400 text-xl animate-projectile'
+            style={{ left: p.x, top: p.y }}
+          >
+            🔥
+          </div>
+        ))}
       </div>
 
       <Modal isOpen={isOpen} placement='center' radius='none'>
@@ -203,11 +301,11 @@ export default function LevelOne() {
           <ModalBody className='modal-body'>
             {winner === 'player'
               ? 'Good Job Wizard!'
-              : 'The fire mage defeated you.'}
+              : 'The fire mage and dragon defeated you.'}
           </ModalBody>
           <ModalFooter>
             {winner === 'player' ? (
-              <Link href={'/CasttleLevelOne'}>
+              <Link href={'/CasttleLevelThree'}>
                 <Button variant='ghost' color='secondary' className='text-continue' radius='none'>
                   HACK THE CASTTLE!
                 </Button>
