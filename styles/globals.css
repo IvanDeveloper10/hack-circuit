@@ -211,3 +211,18 @@
   background: inherit;
   animation: firework 1s ease-out infinite;
 }
+.section-level-one {
+  background-image: url('/casttle-fire-image.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}
+.section-level-two {
+  background-image: url('/casttle-fire-image5.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}
+.section-level-three {
+  background-image: url('/casttle-fire-image6.jpg');
+  background-repeat: no-repeat;
+  background-size: full;
+}

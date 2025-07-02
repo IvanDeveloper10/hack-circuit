@@ -17,7 +17,7 @@ export default function Levels() {
               <h2 className='text-2p animate-sway'>Level One</h2>
             </CardHeader>
             <CardBody className='flex justify-center items-center'>
-              <Link href={'/LevelOne'}>
+              <Link href={'/Levels/LevelOne'}>
                 <Button color='success' variant='ghost' radius='none' className='text-xl text-2p '>LEVEL ONE</Button>
               </Link>
             </CardBody>
@@ -27,7 +27,7 @@ export default function Levels() {
               <h2 className='text-2p animate-sway'>Level Two</h2>
             </CardHeader>
             <CardBody className='flex justify-center items-center'>
-              <Link href={'/LevelTwo'}>
+              <Link href={'/Levels/LevelTwo'}>
                 <Button color='warning' variant='ghost' radius='none' className='text-xl text-2p'>LEVEL TWO</Button>
               </Link>
             </CardBody>
@@ -37,7 +37,7 @@ export default function Levels() {
               <h2 className='text-2p animate-sway'>Level Three</h2>
             </CardHeader>
             <CardBody className='flex justify-center items-center'>
-              <Link href={'/LevelThree'}>
+              <Link href={'/Levels/LevelThree'}>
                 <Button color='danger' variant='ghost' radius='none' className='text-xl text-2p'>LEVEL THREE</Button>
               </Link>
             </CardBody>

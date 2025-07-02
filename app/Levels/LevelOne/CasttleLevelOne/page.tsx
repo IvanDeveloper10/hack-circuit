@@ -73,7 +73,7 @@ export default function CasttleOne() {
           </div>
         </div>
 
-        <Modal isOpen={isSuccessOpen} placement='center' size='4xl' radius='none'>
+        <Modal isOpen={isSuccessOpen} placement='center' radius='none'>
           <ModalContent>
             <ModalHeader className='flex justify-center items-center'>
               <h1 className='text-instructions text-center text-3xl'>CASTTLE HACKED!</h1>
