@@ -1,53 +1,60 @@
-# Next.js & HeroUI Template
+# ⚡ HACK CIRCUIT 🏰
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+**Hack Circuit** is a pixel-art inspired web game with a medieval theme where you battle enemies and hack castle circuits to gain power and progress through levels.
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+🧙‍♂️ **Use your magical and logical skills to defeat foes and conquer every stronghold!**
 
-## Technologies Used
+---
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## 🎮 Gameplay
 
-## How to Use
+- Battle enemies like fire wizards and hostile creatures.
+- Dodge magical projectiles and shoot electric bolts to defeat them.
+- Each level ends with a **Castle Hacking Challenge**: connect matching symbols with the correct wires.
+- Complete the circuit to unlock the next level and grow stronger!
 
-### Use the template with create-next-app
+---
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## 🧠 Objective
+
+> Defeat your enemies and hack the castle by correctly wiring matching symbols. Make a mistake and face magical consequences!
+
+---
+
+## ✨ Features
+
+- 🎮 **Intuitive keyboard controls** (WASD + space to shoot)
+- 🧩 **Circuit logic puzzles**
+- 💥 **Retro-style pixel animations and effects**
+- 📈 **Progressive difficulty**
+- 🔥 **Custom victory, defeat, and error modals**
+- 💻 **Modern responsive UI using Next.js + HeroUI**
+
+---
+
+## 🧑‍💻 Tech Stack
+
+| Technology     | Purpose                                     |
+|----------------|---------------------------------------------|
+| Next.js        | Project structure and server-side rendering |
+| React          | UI and game logic                           |
+| Tailwind CSS   | Styling and layout                          |
+| HeroUI         | Beautiful modals, buttons, and components   |
+| TypeScript     | Strong typing and developer safety          |
+
+---
+
+## 🚀 Getting Started
 
 ```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
-```
+# Clone the repository
+git clone https://github.com/your-username/hack-circuit.git
 
-### Install dependencies
+# Navigate to the project directory
+cd hack-circuit
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
+# Install dependencies
 npm install
-```
 
-### Run the development server
-
-```bash
+# Run in development mode
 npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
