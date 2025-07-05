@@ -17,9 +17,14 @@ export default function Home(): JSX.Element {
         <motion.h1 className='main-text text-8xl text-white drop-shadow-lg font-extrabold text-center z-10 animate-bounce' initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0}} transition={{ duration: 1.2, type: 'spring'}}>
           <i className='text-yellow-400'>HA</i>CK CIRCU<i className='text-yellow-400'>IT</i>
         </motion.h1>
-        <Link href={'/Introduction'}>
-          <Button variant='shadow' radius='none' color='secondary' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>CLICK HERE FOR START</Button>
-        </Link>
+        <div className='flex justify-evenly w-full items-center'>
+          <Link href={'/Introduction'}>
+            <Button variant='shadow' radius='none' color='secondary' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>SINGLE PLAYER</Button>
+          </Link>
+          <Link href={'/Multiplayer'}>
+            <Button variant='shadow' radius='none' color='success' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>MULTIPLAYER</Button>
+          </Link>
+        </div>
       </section>
     </Fragment>
   ); 

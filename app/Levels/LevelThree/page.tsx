@@ -13,7 +13,7 @@ import {
 } from '@heroui/modal';
 import Link from 'next/link';
 
-export default function LevelOne() {
+export default function LevelThree() {
   const [playerPosition, setPlayerPosition] = useState({ x: 300, y: 400 });
   const [playerProjectiles, setPlayerProjectiles] = useState<{ x: number; y: number }[]>([]);
   const [npcPosition, setNpcPosition] = useState({ x: 0, y: 50 });
@@ -51,7 +51,7 @@ export default function LevelOne() {
         const step = 15;
         const next = { ...prev };
         if (e.key === 'a' || e.key === 'A') next.x = Math.max(prev.x - step, 0);
-        if (e.key === 'd' || e.key === 'D') next.x = Math.min(prev.x + step, 530);
+        if (e.key === 'd' || e.key === 'D') next.x = Math.min(prev.x + step, 480);
         if (e.key === 'w' || e.key === 'W') next.y = Math.max(prev.y - step, 0);
         if (e.key === 's' || e.key === 'S') next.y = Math.min(prev.y + step, 400);
         return next;
@@ -238,8 +238,8 @@ export default function LevelOne() {
           {npcHealth > 0 && (
             <Image
               src='/wizard-fire.png'
-              width={120}
-              height={100}
+              width={140}
+              height={80}
               className='absolute'
               style={{ left: npcPosition.x, top: npcPosition.y }}
             />
@@ -247,8 +247,8 @@ export default function LevelOne() {
 
           <Image
             src='/wizard-circuit.png'
-            width={60}
-            height={60}
+            width={140}
+            height={80}
             className='absolute'
             style={{ left: playerPosition.x, top: playerPosition.y }}
           />

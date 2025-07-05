@@ -35,8 +35,8 @@ export default function Instructions() {
           </div>
         </div>
         <div className='w-full flex justify-evenly items-center'>
-          <Link href={'/Introduction'}><Button variant='ghost' color='secondary' radius='none' className='text-back' size='lg'>BACK</Button></Link>
-          <Link href={'/LevelOne'}><Button variant='ghost' color='secondary' radius='none' className='text-continue' size='lg'>CONTINUE</Button></Link>
+          <Link href={'/Introduction'}><Button variant='ghost' color='secondary' radius='none' className='text-back w-72' size='lg'>BACK</Button></Link>
+          <Link href={'/Levels/LevelOne'}><Button variant='ghost' color='secondary' radius='none' className='text-continue w-72' size='lg'>CONTINUE</Button></Link>
         </div>
       </section>
     </Fragment>
