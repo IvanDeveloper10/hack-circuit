@@ -21,8 +21,8 @@ export default function Home(): JSX.Element {
           <Link href={'/Introduction'}>
             <Button variant='shadow' radius='none' color='secondary' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>SINGLE PLAYER</Button>
           </Link>
-          <Link href={'/Multiplayer'}>
-            <Button variant='shadow' radius='none' color='success' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>MULTIPLAYER</Button>
+          <Link href={'/Cooperative'}>
+            <Button variant='shadow' radius='none' color='success' size='lg' className='text-xl px-8 py-4 transition duration-300 hover:scale-105 text-start'>BLOG GAME</Button>
           </Link>
         </div>
       </section>

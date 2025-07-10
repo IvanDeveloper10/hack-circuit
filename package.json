@@ -3,9 +3,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:server": "ts-node server/index.ts"
   },
   "dependencies": {
+    "@firebase/app": "^0.13.2",
+    "@firebase/firestore": "^4.8.0",
     "@heroicons/react": "^2.2.0",
     "@heroui/button": "^2.2.22",
     "@heroui/card": "^2.2.21",
@@ -14,20 +17,32 @@
     "@heroui/react": "^2.7.11",
     "@heroui/system": "^2.4.18",
     "@heroui/theme": "^2.4.17",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.18.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "firebase": "^11.10.0",
     "framer-motion": "^12.23.0",
     "next": "^15.3.5",
     "next-themes": "^0.4.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "socket.io-client": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19",
-    "@types/react": "^18.2.41",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.19.4",
+    "@types/react": "^18.3.23",
     "@types/react-dom": "^18.2.18",
+    "@types/socket.io": "^3.0.2",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.3.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
