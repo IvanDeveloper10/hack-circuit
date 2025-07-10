@@ -96,15 +96,18 @@ export default function Home() {
     <main className='min-h-screen bg-black p-6'>
       <div className='max-w-3xl mx-auto'>
         <h1 className='text-3xl font-bold mb-6 text-center text-2p text-white'>BLOG IN REAL TIME</h1>
-        <p className='text-poppins my-10'>This blog is a cooperative section. It was created to share opinions about the game and chat, as it's very important.</p>
+        <p className='text-poppins my-10'>
+          This blog is a cooperative section. It was created to share opinions about the game and chat, as it's very important.
+        </p>
 
+        {/* Crear publicación */}
         <section className='bg-purple-600 p-4 rounded-xl shadow mb-6'>
           <h2 className='text-xl font-semibold mb-4 text-2p'>CREATE NEW POST</h2>
           <Input
             isRequired
             type='text'
             className='w-full px-3 py-2 mb-2 text-poppins'
-            label='Post Tittle'
+            label='Post Title'
             radius='none'
             value={newPostTitle}
             onChange={e => setNewPostTitle(e.target.value)}
@@ -121,13 +124,15 @@ export default function Home() {
             variant='shadow'
             radius='none'
             className='text-2p w-full'
+            onPress={handleCreatePost}
           >
             Post
           </Button>
         </section>
 
+        {/* Lista de publicaciones */}
         {posts.length === 0 ? (
-          <p className='text-center text-black'>There are no posts yet.</p>
+          <p className='text-center text-white text-poppins'>There are no posts yet.</p>
         ) : (
           posts.map(post => (
             <div key={post.id} className='bg-white p-4 rounded shadow mb-6 text-black'>
@@ -135,14 +140,17 @@ export default function Home() {
               <p className='mb-4 text-poppins'>{post.content}</p>
               <button
                 className='text-poppins text-black'
-                onClick={() => setSelectedPost(post)}
+                onClick={() =>
+                  setSelectedPost(selectedPost?.id === post.id ? null : post)
+                }
               >
-                See Comments
+                {selectedPost?.id === post.id ? 'Hide Comments' : 'See Comments'}
               </button>
             </div>
           ))
         )}
 
+        {/* Sección de comentarios */}
         {selectedPost && (
           <section className='bg-white p-4 rounded shadow mt-6'>
             <div className='my-10 text-black text-poppins'>
