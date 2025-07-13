@@ -12,6 +12,7 @@ import {
   useDisclosure
 } from '@heroui/modal';
 import Link from 'next/link';
+import Chat from '@/components/Chat';
 
 export default function LevelThree() {
   const [playerPosition, setPlayerPosition] = useState({ x: 300, y: 400 });
@@ -21,10 +22,10 @@ export default function LevelThree() {
   const [npcProjectiles, setNpcProjectiles] = useState<{ x: number; y: number }[]>([]);
   const [npcHealth, setNpcHealth] = useState(50);
   const [playerHealth, setPlayerHealth] = useState(35);
-
   const [dragonPosition, setDragonPosition] = useState({ x: 480, y: 100 });
   const [dragonProjectiles, setDragonProjectiles] = useState<{ x: number; y: number }[]>([]);
   const [dragonHealth, setDragonHealth] = useState(20);
+  const [paused, setPaused] = useState(false);
 
   const npcRef = useRef(npcPosition);
   const playerRef = useRef(playerPosition);
@@ -47,6 +48,7 @@ export default function LevelThree() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (paused) return;
       setPlayerPosition((prev) => {
         const step = 15;
         const next = { ...prev };
@@ -56,7 +58,6 @@ export default function LevelThree() {
         if (e.key === 's' || e.key === 'S') next.y = Math.min(prev.y + step, 400);
         return next;
       });
-
       if (e.code === 'Space') {
         setPlayerProjectiles((prev) => [
           ...prev,
@@ -64,56 +65,42 @@ export default function LevelThree() {
         ]);
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [paused]);
 
   useEffect(() => {
-    if (npcHealth <= 0) return;
-
+    if (npcHealth <= 0 || paused) return;
     const npcInterval = setInterval(() => {
       setNpcPosition((prev) => {
         let nextX = prev.x + 10 * npcDirection;
         let nextDirection = npcDirection;
-
         if (nextX <= 0 || nextX >= 540) {
           nextDirection = -npcDirection;
           setNpcDirection(nextDirection);
           nextX = prev.x + 10 * nextDirection;
         }
-
         setNpcProjectiles((projectiles) => [
           ...projectiles,
           { x: nextX + 20, y: prev.y + 40 }
         ]);
-
         return { ...prev, x: Math.max(0, Math.min(nextX, 540)) };
       });
     }, 1000);
-
     return () => clearInterval(npcInterval);
-  }, [npcDirection, npcHealth]);
+  }, [npcDirection, npcHealth, paused]);
 
   useEffect(() => {
-    if (dragonHealth <= 0) return;
-
+    if (dragonHealth <= 0 || paused) return;
     const dragonInterval = setInterval(() => {
       setDragonPosition((prev) => {
         const dx = (Math.random() - 0.5) * 20;
         const dy = (Math.random() - 0.5) * 20;
-
-        const minX = 350;
-        const maxX = 540;
-        const minY = 20;
-        const maxY = 200;
-
+        const minX = 350, maxX = 540, minY = 20, maxY = 200;
         const newX = Math.min(Math.max(prev.x + dx, minX), maxX);
         const newY = Math.min(Math.max(prev.y + dy, minY), maxY);
-
         return { x: newX, y: newY };
       });
-
       if (Math.random() < 0.5) {
         setDragonProjectiles((prev) => [
           ...prev,
@@ -121,95 +108,58 @@ export default function LevelThree() {
         ]);
       }
     }, 1000);
-
     return () => clearInterval(dragonInterval);
-  }, [dragonHealth]);
+  }, [dragonHealth, paused]);
 
   useEffect(() => {
+    if (paused) return;
     const moveInterval = setInterval(() => {
       const npc = npcRef.current;
       const player = playerRef.current;
-
       setPlayerProjectiles((prev) =>
-        prev
-          .map((p) => {
-            const newY = p.y - 8;
-
-            const hitNpc =
-              npcHealth > 0 &&
-              p.x >= npc.x &&
-              p.x <= npc.x + 60 &&
-              newY >= npc.y &&
-              newY <= npc.y + 60;
-
-            if (hitNpc) {
-              setNpcHealth((h) => Math.max(h - 1, 0));
-              return null;
-            }
-
-            const hitDragon =
-              dragonHealth > 0 &&
-              p.x >= dragonRef.current.x &&
-              p.x <= dragonRef.current.x + 60 &&
-              newY >= dragonRef.current.y &&
-              newY <= dragonRef.current.y + 60;
-
-            if (hitDragon) {
-              setDragonHealth((h) => Math.max(h - 1, 0));
-              return null;
-            }
-
-            if (newY < -20) return null;
-            return { ...p, y: newY };
-          })
-          .filter((p): p is { x: number; y: number } => p !== null)
+        prev.map((p) => {
+          const newY = p.y - 8;
+          const hitNpc = npcHealth > 0 && p.x >= npc.x && p.x <= npc.x + 60 && newY >= npc.y && newY <= npc.y + 60;
+          if (hitNpc) {
+            setNpcHealth((h) => Math.max(h - 1, 0));
+            return null;
+          }
+          const hitDragon = dragonHealth > 0 && p.x >= dragonRef.current.x && p.x <= dragonRef.current.x + 60 && newY >= dragonRef.current.y && newY <= dragonRef.current.y + 60;
+          if (hitDragon) {
+            setDragonHealth((h) => Math.max(h - 1, 0));
+            return null;
+          }
+          if (newY < -20) return null;
+          return { ...p, y: newY };
+        }).filter((p): p is { x: number; y: number } => p !== null)
       );
-
       setNpcProjectiles((prev) =>
-        prev
-          .map((p) => {
-            const newY = p.y + 6;
-            const hit =
-              p.x >= player.x &&
-              p.x <= player.x + 60 &&
-              newY >= player.y &&
-              newY <= player.y + 60;
-
-            if (hit) {
-              setPlayerHealth((h) => Math.max(h - 1, 0));
-              return null;
-            }
-
-            if (newY > 520) return null;
-            return { ...p, y: newY };
-          })
-          .filter((p): p is { x: number; y: number } => p !== null)
+        prev.map((p) => {
+          const newY = p.y + 6;
+          const hit = p.x >= player.x && p.x <= player.x + 60 && newY >= player.y && newY <= player.y + 60;
+          if (hit) {
+            setPlayerHealth((h) => Math.max(h - 1, 0));
+            return null;
+          }
+          if (newY > 520) return null;
+          return { ...p, y: newY };
+        }).filter((p): p is { x: number; y: number } => p !== null)
       );
-
       setDragonProjectiles((prev) =>
-        prev
-          .map((p) => {
-            const newY = p.y + 5;
-            const hit =
-              p.x >= player.x &&
-              p.x <= player.x + 60 &&
-              newY >= player.y &&
-              newY <= player.y + 60;
-
-            if (hit) {
-              setPlayerHealth((h) => Math.max(h - 1, 0));
-              return null;
-            }
-
-            if (newY > 520) return null;
-            return { ...p, y: newY };
-          })
-          .filter((p): p is { x: number; y: number } => p !== null)
+        prev.map((p) => {
+          const newY = p.y + 5;
+          const hit = p.x >= player.x && p.x <= player.x + 60 && newY >= player.y && newY <= player.y + 60;
+          if (hit) {
+            setPlayerHealth((h) => Math.max(h - 1, 0));
+            return null;
+          }
+          if (newY > 520) return null;
+          return { ...p, y: newY };
+        }).filter((p): p is { x: number; y: number } => p !== null)
       );
     }, 30);
-
     return () => clearInterval(moveInterval);
-  }, [npcHealth, dragonHealth]);
+  }, [npcHealth, dragonHealth, paused]);
 
   useEffect(() => {
     if (npcHealth <= 0 && dragonHealth <= 0) {
@@ -225,100 +175,42 @@ export default function LevelThree() {
     <Fragment>
       <section className='w-full h-screen section-level-three'>
         <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container3'>
-          <div className='absolute left-2 top-2 text-white font-bold text-poppins'>
-            ⚡ YOU: {playerHealth}
-          </div>
-          <div className='absolute right-2 top-2 text-white font-bold text-poppins'>
-            🔥 FIRE WIZARD: {npcHealth}
-          </div>
-          <div className='absolute right-2 top-10 text-white font-bold text-poppins'>
-            🐉 DRAGON: {dragonHealth}
-          </div>
-
-          {npcHealth > 0 && (
-            <Image
-              src='/wizard-fire.png'
-              width={140}
-              height={80}
-              className='absolute'
-              style={{ left: npcPosition.x, top: npcPosition.y }}
-            />
-          )}
-
-          <Image
-            src='/wizard-circuit.png'
-            width={140}
-            height={80}
-            className='absolute'
-            style={{ left: playerPosition.x, top: playerPosition.y }}
-          />
-
-          {dragonHealth > 0 && (
-            <Image
-              src='/dragon-fire.png'
-              width={135}
-              height={90}
-              className='absolute'
-              style={{ left: dragonPosition.x, top: dragonPosition.y }}
-            />
-          )}
-
-          {playerProjectiles.map((p, i) => (
-            <div
-              key={`elec-${i}`}
-              className='absolute text-yellow-300 text-xl animate-projectile'
-              style={{ left: p.x, top: p.y }}
+          <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-10'>
+            <Button
+              onPress={() => setPaused((prev) => !prev)}
+              className='text-2p'
+              color='secondary'
+              radius='none'
+              variant='shadow'
             >
-              ⚡
-            </div>
-          ))}
-
-          {npcProjectiles.map((p, i) => (
-            <div
-              key={`fire-${i}`}
-              className='absolute text-red-500 text-xl animate-projectile'
-              style={{ left: p.x, top: p.y }}
-            >
-              🔥
-            </div>
-          ))}
-
-          {dragonProjectiles.map((p, i) => (
-            <div
-              key={`dragon-${i}`}
-              className='absolute text-orange-400 text-xl animate-projectile'
-              style={{ left: p.x, top: p.y }}
-            >
-              🔥
-            </div>
-          ))}
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </Button>
+          </div>
+          <div className='absolute left-2 top-2 text-white font-bold text-poppins'>⚡ YOU: {playerHealth}</div>
+          <div className='absolute right-2 top-2 text-white font-bold text-poppins'>🔥 FIRE WIZARD: {npcHealth}</div>
+          <div className='absolute right-2 top-10 text-white font-bold text-poppins'>🐉 DRAGON: {dragonHealth}</div>
+          {npcHealth > 0 && <Image src='/wizard-fire.png' width={140} height={80} className='absolute' style={{ left: npcPosition.x, top: npcPosition.y }} />}
+          <Image src='/wizard-circuit.png' width={140} height={80} className='absolute' style={{ left: playerPosition.x, top: playerPosition.y }} />
+          {dragonHealth > 0 && <Image src='/dragon-fire.png' width={135} height={90} className='absolute' style={{ left: dragonPosition.x, top: dragonPosition.y }} />}
+          {playerProjectiles.map((p, i) => <div key={`elec-${i}`} className='absolute text-yellow-300 text-xl animate-projectile' style={{ left: p.x, top: p.y }}>⚡</div>)}
+          {npcProjectiles.map((p, i) => <div key={`fire-${i}`} className='absolute text-red-500 text-xl animate-projectile' style={{ left: p.x, top: p.y }}>🔥</div>)}
+          {dragonProjectiles.map((p, i) => <div key={`dragon-${i}`} className='absolute text-orange-400 text-xl animate-projectile' style={{ left: p.x, top: p.y }}>🔥</div>)}
         </div>
-
         <Modal isOpen={isOpen} placement='center' radius='none'>
           <ModalContent>
             <ModalHeader className='flex justify-center items-center text-2xl modal-header'>
               {winner === 'player' ? '¡YOU WIN!' : 'GAME OVER'}
             </ModalHeader>
             <ModalBody className='modal-body'>
-              {winner === 'player'
-                ? 'Good Job Wizard!'
-                : 'The fire mage and dragon defeated you.'}
+              {winner === 'player' ? 'Good Job Wizard!' : 'The fire mage and dragon defeated you.'}
             </ModalBody>
             <ModalFooter>
               {winner === 'player' ? (
                 <Link href={'/Levels/LevelThree/CasttleLevelThree'}>
-                  <Button variant='ghost' color='secondary' className='text-continue' radius='none'>
-                    HACK THE CASTTLE!
-                  </Button>
+                  <Button variant='ghost' color='secondary' className='text-continue' radius='none'>HACK THE CASTTLE!</Button>
                 </Link>
               ) : (
-                <Button
-                  variant='ghost'
-                  color='secondary'
-                  className='text-continue'
-                  radius='none'
-                  onPress={() => window.location.reload()}
-                >
+                <Button variant='ghost' color='secondary' className='text-continue' radius='none' onPress={() => window.location.reload()}>
                   TRY AGAIN
                 </Button>
               )}
@@ -326,6 +218,7 @@ export default function LevelThree() {
           </ModalContent>
         </Modal>
       </section>
+      <Chat />
     </Fragment>
   );
 }

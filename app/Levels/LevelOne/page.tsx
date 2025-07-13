@@ -12,6 +12,7 @@ import {
   useDisclosure
 } from '@heroui/modal';
 import Link from 'next/link';
+import Chat from '@/components/Chat';
 
 export default function LevelOne() {
   const [playerPosition, setPlayerPosition] = useState({ x: 300, y: 400 });
@@ -21,6 +22,7 @@ export default function LevelOne() {
   const [npcProjectiles, setNpcProjectiles] = useState<{ x: number; y: number }[]>([]);
   const [npcHealth, setNpcHealth] = useState(15);
   const [playerHealth, setPlayerHealth] = useState(10);
+  const [paused, setPaused] = useState(false);
 
   const npcRef = useRef(npcPosition);
   const playerRef = useRef(playerPosition);
@@ -37,6 +39,8 @@ export default function LevelOne() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (paused) return;
+
       setPlayerPosition((prev) => {
         const step = 15;
         const next = { ...prev };
@@ -57,10 +61,10 @@ export default function LevelOne() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [paused]);
 
   useEffect(() => {
-    if (npcHealth <= 0) return;
+    if (npcHealth <= 0 || paused) return;
 
     const npcInterval = setInterval(() => {
       setNpcPosition((prev) => {
@@ -83,9 +87,11 @@ export default function LevelOne() {
     }, 1000);
 
     return () => clearInterval(npcInterval);
-  }, [npcDirection, npcHealth]);
+  }, [npcDirection, npcHealth, paused]);
 
   useEffect(() => {
+    if (paused) return;
+
     const moveInterval = setInterval(() => {
       const npc = npcRef.current;
       const player = playerRef.current;
@@ -134,7 +140,7 @@ export default function LevelOne() {
     }, 30);
 
     return () => clearInterval(moveInterval);
-  }, [npcHealth]);
+  }, [npcHealth, paused]);
 
   useEffect(() => {
     if (npcHealth <= 0) {
@@ -150,6 +156,19 @@ export default function LevelOne() {
     <Fragment>
       <section className='section-level-one w-full h-screen'>
         <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container'>
+          <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-10'>
+            <Button
+              onPress={() => setPaused((prev) => !prev)}
+              className='text-2p'
+              color='secondary'
+              radius='none'
+              variant='shadow'
+            >
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </Button>
+          </div>
+
+          {/* Vidas */}
           <div className='absolute left-2 top-2 text-white font-bold text-poppins'>
             ⚡ YOU: {playerHealth}
           </div>
@@ -157,6 +176,7 @@ export default function LevelOne() {
             🔥 FIRE WIZARD: {npcHealth}
           </div>
 
+          {/* NPC */}
           {npcHealth > 0 && (
             <Image
               src='/wizard-fire.png'
@@ -167,6 +187,7 @@ export default function LevelOne() {
             />
           )}
 
+          {/* Jugador */}
           <Image
             src='/wizard-circuit.png'
             width={140}
@@ -175,6 +196,7 @@ export default function LevelOne() {
             style={{ left: playerPosition.x, top: playerPosition.y }}
           />
 
+          {/* Proyectiles del jugador */}
           {playerProjectiles.map((p, i) => (
             <div
               key={`elec-${i}`}
@@ -185,6 +207,7 @@ export default function LevelOne() {
             </div>
           ))}
 
+          {/* Proyectiles del NPC */}
           {npcProjectiles.map((p, i) => (
             <div
               key={`fire-${i}`}
@@ -196,6 +219,7 @@ export default function LevelOne() {
           ))}
         </div>
 
+        {/* Modal final */}
         <Modal isOpen={isOpen} placement='center' radius='none'>
           <ModalContent>
             <ModalHeader className='flex justify-center items-center text-2xl modal-header'>
@@ -209,7 +233,12 @@ export default function LevelOne() {
             <ModalFooter>
               {winner === 'player' ? (
                 <Link href={'/Levels/LevelOne/CasttleLevelOne'}>
-                  <Button variant='ghost' color='secondary' className='text-continue' radius='none'>
+                  <Button
+                    variant='ghost'
+                    color='secondary'
+                    className='text-continue'
+                    radius='none'
+                  >
                     HACK THE CASTTLE!
                   </Button>
                 </Link>
@@ -228,6 +257,9 @@ export default function LevelOne() {
           </ModalContent>
         </Modal>
       </section>
+
+      {/* Chat en tiempo real */}
+      <Chat />
     </Fragment>
   );
 }

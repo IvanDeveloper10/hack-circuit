@@ -12,6 +12,7 @@ import {
   useDisclosure
 } from '@heroui/modal';
 import Link from 'next/link';
+import Chat from '@/components/Chat';
 
 export default function LevelTwo() {
   const [playerPosition, setPlayerPosition] = useState({ x: 300, y: 400 });
@@ -21,6 +22,7 @@ export default function LevelTwo() {
   const [npcProjectiles, setNpcProjectiles] = useState<{ x: number; y: number }[]>([]);
   const [npcHealth, setNpcHealth] = useState(15);
   const [playerHealth, setPlayerHealth] = useState(10);
+  const [paused, setPaused] = useState(false);
 
   const [dragonPosition, setDragonPosition] = useState({ x: 480, y: 100 });
   const [dragonProjectiles, setDragonProjectiles] = useState<{ x: number; y: number }[]>([]);
@@ -47,6 +49,8 @@ export default function LevelTwo() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (paused) return;
+
       setPlayerPosition((prev) => {
         const step = 15;
         const next = { ...prev };
@@ -67,10 +71,10 @@ export default function LevelTwo() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [paused]);
 
   useEffect(() => {
-    if (npcHealth <= 0) return;
+    if (npcHealth <= 0 || paused) return;
 
     const npcInterval = setInterval(() => {
       setNpcPosition((prev) => {
@@ -93,10 +97,10 @@ export default function LevelTwo() {
     }, 1000);
 
     return () => clearInterval(npcInterval);
-  }, [npcDirection, npcHealth]);
+  }, [npcDirection, npcHealth, paused]);
 
   useEffect(() => {
-    if (dragonHealth <= 0) return;
+    if (dragonHealth <= 0 || paused) return;
 
     const dragonInterval = setInterval(() => {
       setDragonPosition((prev) => {
@@ -123,9 +127,11 @@ export default function LevelTwo() {
     }, 1000);
 
     return () => clearInterval(dragonInterval);
-  }, [dragonHealth]);
+  }, [dragonHealth, paused]);
 
   useEffect(() => {
+    if (paused) return;
+
     const moveInterval = setInterval(() => {
       const npc = npcRef.current;
       const player = playerRef.current;
@@ -209,7 +215,7 @@ export default function LevelTwo() {
     }, 30);
 
     return () => clearInterval(moveInterval);
-  }, [npcHealth, dragonHealth]);
+  }, [npcHealth, dragonHealth, paused]);
 
   useEffect(() => {
     if (npcHealth <= 0 && dragonHealth <= 0) {
@@ -225,6 +231,18 @@ export default function LevelTwo() {
     <Fragment>
       <section className='w-full h-screen section-level-two'>
         <div className='relative top-10 bg-gradient-to-b from-gray-900 to-black border-4 w-[600px] h-[500px] mx-auto overflow-hidden game-container2'>
+          <div className='absolute top-2 left-1/2 transform -translate-x-1/2 z-10'>
+            <Button
+              onPress={() => setPaused((prev) => !prev)}
+              className='text-2p'
+              color='secondary'
+              radius='none'
+              variant='shadow'
+            >
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </Button>
+          </div>
+
           <div className='absolute left-2 top-2 text-white font-bold text-poppins'>
             ⚡ YOU: {playerHealth}
           </div>
@@ -326,6 +344,7 @@ export default function LevelTwo() {
           </ModalContent>
         </Modal>
       </section>
+      <Chat />
     </Fragment>
   );
 }
