@@ -1,48 +1,31 @@
+<img width="1919" height="900" alt="Captura de pantalla 2025-07-26 081701" src="https://github.com/user-attachments/assets/25c87dce-7b9f-4572-a3f5-dcfcac1a2def" />
+
+
 # ⚡ HACK CIRCUIT 🏰
 
-**Hack Circuit** is a pixel-art inspired web game with a medieval theme where you battle enemies and hack castle circuits to gain power and progress through levels.
+<img width="1919" height="894" alt="Captura de pantalla 2025-07-26 080037" src="https://github.com/user-attachments/assets/7847f00d-e3a2-4828-8e64-05596a036992" />
 
-🧙‍♂️ **Use your magical and logical skills to defeat foes and conquer every stronghold!**
-
+Hack-Circuit is a web game where the main objective is to fight enemies on different levels. When you defeat the enemies, you have to hack a castle, and you do this by solving a puzzle. But be careful... Some of them are cheaters.
 ---
 
-## 🎮 Gameplay
+The game has online features. I created a section called the Game Blog, a place where players can leave reviews, share ideas, and more. It also includes a real-time chat so players, regardless of their level, can talk while playing. This entire real-time system was built with FIREBASE.
 
-- Battle enemies like fire wizards and hostile creatures.
-- Dodge magical projectiles and shoot electric bolts to defeat them.
-- Each level ends with a **Castle Hacking Challenge**: connect matching symbols with the correct wires.
-- Complete the circuit to unlock the next level and grow stronger!
-
----
-
-## 🧠 Objective
-
-> Defeat your enemies and hack the castle by correctly wiring matching symbols. Make a mistake and face magical consequences!
+<img width="1909" height="896" alt="Captura de pantalla 2025-07-26 080437" src="https://github.com/user-attachments/assets/424a9697-8531-46e7-907e-ce506e14642a" />
+<img width="1886" height="890" alt="Captura de pantalla 2025-07-26 080356" src="https://github.com/user-attachments/assets/00929d18-0972-47dc-8907-66faaab6fb9e" />
 
 ---
 
 ## ✨ Features
 
-- 🎮 **Intuitive keyboard controls** (WASD + space to shoot)
-- 🧩 **Circuit logic puzzles**
-- 💥 **Retro-style pixel animations and effects**
-- 📈 **Progressive difficulty**
-- 🔥 **Custom victory, defeat, and error modals**
-- 💻 **Modern responsive UI using Next.js + HeroUI**
+The game was created with inspiration from a modern UI to adapt to computers, utilizing intermediate design technologies to achieve this. Its architecture is made up of real-time sections, making it a standout game.
 
 ---
 
-## 🧑‍💻 Tech Stack
-
-| Technology     | Purpose                                     |
-|----------------|---------------------------------------------|
-| Next.js        | Project structure and server-side rendering |
-| React          | UI and game logic                           |
-| Tailwind CSS   | Styling and layout                          |
-| HeroUI         | Beautiful modals, buttons, and components   |
-| TypeScript     | Strong typing and developer safety          |
+I used technologies such as ReactJS, NextJS, HeroUI, TailwindCSS so that the entire project has two important pillars in web programming, the backend and the frontend, the design was created with TailwindCSS and HeroUI, and for real-time functionality I used FIREBASE and its ecosystem.
 
 ---
+
+This game was created as a participation in Hack Club, a strong thanks for being the world leader of hackers.
 
 ## 🚀 Getting Started
 
@@ -58,3 +41,5 @@ npm install
 
 # Run in development mode
 npm run dev
+
+
